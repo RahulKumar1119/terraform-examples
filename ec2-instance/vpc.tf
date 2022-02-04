@@ -1,15 +1,15 @@
 resource "aws_vpc" "vpc-dev" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    "Name" = "vpc-dev"
+    Name = "vpc-dev"
   }
 }
 
 resource "aws_subnet" "vpc-dev-public-subnet-1" {
-  vpc_id                  = aws_vpc.vpc-dev.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-south-1c"
-  map_public_ip_on_launch = true
+  vpc_id            = aws_vpc.vpc-dev.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "ap-south-1a"
+  #map_customer_owned_ip_on_launch = true
 }
 
 resource "aws_internet_gateway" "vpc-dev-igw" {
@@ -31,22 +31,21 @@ resource "aws_route_table_association" "vpc-dev-public-route-table-association" 
   subnet_id      = aws_subnet.vpc-dev-public-subnet-1.id
 }
 
-resource "aws_security_group" "dev-vpc-sg" {
-  name        = "dev-vpc-default-sg"
-  description = "Dev VPC Default Security Group"
+resource "aws_security_group" "vpc-dev-sg" {
+  name        = "vpc-dev-sg"
+  description = "Deafult Security Group"
   vpc_id      = aws_vpc.vpc-dev.id
 
   ingress {
-    description = "Allow port 22"
+    description = "Allow Port 22"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-
   ingress {
-    description = "Allow port 80"
+    description = "Allow Port 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -54,10 +53,10 @@ resource "aws_security_group" "dev-vpc-sg" {
   }
 
   egress {
-    description = "Allow all IP and Ports Outbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
