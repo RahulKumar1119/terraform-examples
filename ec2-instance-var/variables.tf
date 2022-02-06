@@ -9,9 +9,3 @@ variable "ec2_ami_id" {
   type        = string
   default     = "ami-03fa4afc89e4a8a09"
 }
-
-variable "ec2_instance_count" {
-  description = "EC2 instance count"
-  type        = number
-  default     = 1
-}
