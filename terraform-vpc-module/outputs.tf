@@ -13,3 +13,9 @@ output "eks-vpc-private-subnet-1a_id" {
 output "eks-vpc-private-subnet-1b_id" {
   value = [aws_subnet.eks-vpc-private-subnet-1b.id]
 }
+
+output "vpc_id" {
+  description = "ID of the VPC"
+  value = [aws_vpc.eks-vpc.id]
+}
+

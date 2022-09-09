@@ -1,5 +1,5 @@
 module "vpc" {
-  source = ".//terraform-vpc-module"
+  source = "..//terraform-vpc-module"
 }
 
 resource "aws_iam_role" "EKSClusterRole" {
