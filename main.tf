@@ -108,6 +108,7 @@ resource "aws_eks_node_group" "private-nodes" {
   ]
 }
 
+
 data "tls_certificate" "eks" {
   url = aws_eks_cluster.demo.identity[0].oidc[0].issuer
 }
@@ -116,6 +117,25 @@ resource "aws_iam_openid_connect_provider" "eks" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.demo.identity[0].oidc[0].issuer
+}
+
+
+resource "null_resource" "merge_kubeconfig" {
+  triggers = {
+    always = timestamp()
+  }
+
+  depends_on = [module.vpc.aws_eks_cluster]
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
+      set -e
+      echo 'Applying Auth ConfigMap with kubectl...'
+      aws eks wait cluster-active --name 'demo'
+      aws eks --region=${var.region} update-kubeconfig --name demo --profile=${var.profile}
+    EOT
+  }
 }
 
 resource "aws_security_group" "jenkins_server_sg" {
