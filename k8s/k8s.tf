@@ -918,7 +918,7 @@ resource "kubernetes_deployment" "frontend" {
       spec {
         container {
           name  = "server"
-          image = "9870050478/frontend:v1"
+          image = "9870050478/frontend:v2"
 
           port {
             container_port = 8080
