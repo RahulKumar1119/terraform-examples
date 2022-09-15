@@ -125,7 +125,7 @@ resource "null_resource" "merge_kubeconfig" {
     always = timestamp()
   }
 
-  depends_on = [module.vpc.aws_eks_cluster]
+  depends_on = [aws_eks_cluster.demo]
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
