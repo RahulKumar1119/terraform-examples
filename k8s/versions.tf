@@ -13,4 +13,11 @@ terraform {
   }
 
   required_version = ">= 0.13"
+
+  backend "s3" {
+    bucket = "terraform-state-777"
+    key    = "k8s/k8s.tfstate"
+    region = "ap-south-1"
+  }
+
 }

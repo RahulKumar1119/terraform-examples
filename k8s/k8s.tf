@@ -1030,3 +1030,6 @@ resource "kubernetes_service" "frontend_external" {
   }
 }
 
+output "k8s_load_balancer_hostname" {
+  value = kubernetes_service.frontend_external.status.0.load_balancer.0.ingress.0.hostname
+}

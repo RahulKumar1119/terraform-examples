@@ -12,5 +12,10 @@ terraform {
     }
   }
 
+  backend "s3" {
+    bucket = "terraform-state-777"
+    key    = "eks/eks.tfstate"
+    region = "ap-south-1"
+  }
   required_version = ">= 0.13"
 }
